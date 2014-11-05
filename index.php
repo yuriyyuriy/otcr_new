@@ -199,12 +199,12 @@ $modified=0;
 
 
           <h4>Status</h4>
-		  <input type="checkbox" value="free" id="avail1" name="avail1"><br>
+		  <input type="checkbox" value="free" id="avail1" name="avail1">
 		  <label for="avail1"><span style="font-weight:normal;">Free</span></label>
-          
-		  <input type="checkbox" value="paid" id="avail2" name="avail2"><br>
+          <br>
+		  <input type="checkbox" value="paid" id="avail2" name="avail2">
 	      <label for="avail2"><span style="font-weight:normal;">Paid</span></label>
-          
+          <br>
           <br>
           <button class="btn btn-default" name="filter_go" type="submit" value="">Filter</button>
 					
