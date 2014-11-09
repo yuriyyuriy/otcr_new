@@ -159,3 +159,29 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+.add-data-input{
+  padding-bottom: 10px;
+}
+.input-title{
+  padding: 9px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 34px;
+}
+.spacing{
+  margin-bottom:10px;
+}
+.description-title{
+  font-style: bold !important;
+  background-color: #efefef;
+}
+h4 .description{
+  padding-bottom: 10px;
+
+}
