@@ -4,48 +4,63 @@ class queryString
 	private $query_base="SELECT * FROM testtable";
 	private $query_init = array(
 		"Industry" => array(),
-		"Status" => array(),
+		"Availability" => array(),
 	);
 	public function buildQuery(){
-		if(allAvail)
+		if($this->allAvail())
 		{
-			return $query_base;
+			return $this->query_base;
 		}
 		$multfilter=0;
-		foreach ($query_init as $area=>$filter) {
+		$this->query_base= $this->query_base." WHERE ";
+		foreach ($this->query_init as $area=>$filter) {
 			if (!empty($filter))
 			{
+				
 				if ($multfilter){
-					$query_base=$query_base." AND ";
+					$this->query_base=$this->query_base." AND";
 
 				}
-				$query_base=$query_base." WHERE ".$area." LIKE ";
+				$this->query_base=$this->query_base."(";
+				//$this->query_base=$this->query_base."";
+				$this->query_base=$this->query_base.$area." LIKE";
 				$multelems=0;
     			foreach($filter as $queryadd) {
 					if ($multelems)
 					{
-						$query_base=$query_base." OR";
+						$this->query_base=$this->query_base." OR ";
+						$this->query_base=$this->query_base.$area." LIKE";
 					}
-					$query_base=$query_base." ".$queryadd;
+					$this->query_base=$this->query_base." '".$queryadd."'";
 					$multelems=1;
 				}
 				$multfilter=1;
+				$this->query_base=$this->query_base.")";
+				//$this->query_base=$this->query_base.")";
 			}
 		}
+		return $this->query_base;
 	}
 	public function allAvail(){
-		if((empty ($query_init["Industry"]))&&(empty ($query_init["Status"]))){
+		if((empty ($this->query_init["Industry"]))&&(empty ($this->query_init["Availability"]))){
 			return true;
 		}
 		return false;
 	}
 	public function addFilter($domain, $newFilter){
-		$query_init[$domain][] = $newFilter;
+		echo "In here222!";
+		$this->query_init[$domain][] = $newFilter;
 	}
 	public function removeFilter($domain, $oldFilter){
+		echo "Not in here222!";
 		array_diff( $query_init[$domain], $oldFilter);
 	}
-
+	public function getArrayTemp(){
+		return $this->query_init;
+	}
+	public function returnQuery(){
+		return $this->query_base;	
+	}
 }
 $overall_query= new queryString;
 function removeElem_PHP($divname) {
@@ -125,6 +140,10 @@ $modified=0;
 		//	}
 		//	return false;
 		}
+		 submitForms = function(){
+   		 	document.getElementById("searchform").submit();
+    		document.getElementById("filterform").submit();
+		}
 		</script>
 </head>
 
@@ -162,7 +181,7 @@ $modified=0;
             <input class="form-control" placeholder=
             "Enter a search term" name="search_info" type="text">
           </div>
-          <button class ="btn btn-default" name="search_go" type= "submit" value="">Search</button>
+          <button class ="btn btn-default" name="search_go" type= "submit" value="" onclick="submitForms()">Search</button>
         </form>
           
 
@@ -176,19 +195,19 @@ $modified=0;
       <div class="col-sm-3 col-md-2 sidebar">
         <h2><b>Filter Sources</b></h2>
 
-		<form name="filter_go_test" action="index.php?filter_go_test" method="post" >
+		<form name="filter_go_test" action="index.php?filter_go_test" method="post" id="filterform" >
 		  <br>
           <h4><b>Industry</b></h4>
 		  <input type="checkbox" value="healthcare" id="industry1" name="industry1">
 		  <label for="industry1"><span style="font-weight:normal;">Healthcare</span></label>
 
           <br>
-		  <input type="checkbox" value="finance" id="industry2" name="industry2">
+		  <input type="checkbox" value="Finance" id="industry2" name="industry2">
 		  <label for="industry2"><span style="font-weight:normal;">Finance</span></label>
           
           <br>
-		  <input type="checkbox" value="retail" id="industry3" name="industry3">
-		  <label for="industry3"><span style="font-weight:normal;">Retail</span></label>
+		  <input type="checkbox" value="Energy" id="industry3" name="industry3">
+		  <label for="industry3"><span style="font-weight:normal;">Energy</span></label>
           
           <br>
 		  <input type="checkbox" value="agriculture" id="industry4" name="industry4">
@@ -199,14 +218,14 @@ $modified=0;
 
 
           <h4>Status</h4>
-		  <input type="checkbox" value="free" id="avail1" name="avail1">
+		  <input type="checkbox" value="Free" id="avail1" name="avail1">
 		  <label for="avail1"><span style="font-weight:normal;">Free</span></label>
           <br>
-		  <input type="checkbox" value="paid" id="avail2" name="avail2">
+		  <input type="checkbox" value="Paid" id="avail2" name="avail2">
 	      <label for="avail2"><span style="font-weight:normal;">Paid</span></label>
           <br>
           <br>
-          <button class="btn btn-default" name="filter_go" type="submit" value="">Filter</button>
+          <button class="btn btn-default" name="filter_go" onclick="submitForms()" value="">Filter</button>
 					
         </form>
 
@@ -322,7 +341,8 @@ $modified=0;
 	  				//-select  the database to use
 	  				//$mydb=mysql_select_db("yourDatabase");
 	  				//-query  the database table
-	  				$sql="SELECT * FROM testtable WHERE Website LIKE '%" . $name .  "%' OR Industry LIKE '%" . $name ."%' OR Availability LIKE '%" . $name ."%'OR Location LIKE '%" . $name ."%'";
+					$sql= $overall_query->buildQuery();
+//." AND Website LIKE'%" . $name .  "%' OR Industry LIKE '%" . $name ."%' OR Availability LIKE '%" . $name ."%'OR Location LIKE '%" . $name ."%'";
 	  				//-run  the query against the mysql query function1
 	 				$result=mysqli_query($con,$sql);	
 					//-create  while loop and loop through result set
@@ -381,12 +401,107 @@ $modified=0;
 					if ($total_divs==0)
 					{
 						echo '<p id= "no_results"> No results were found for this search query </p>';
+						echo '<p>'.$sql.'</p>';
 					}
 					
 					echo $dom->saveHTML();
 				}
 			//}
 		}
+		if(isset($_POST['filter_go']))
+			{
+				echo "Cake1";
+				for ($i=1; $i<5; $i++)
+				{
+					if (isset($_POST["industry".$i])) {
+					$overall_query->addFilter("Industry",$_POST["industry".$i]);
+
+					} else {
+
+
+					}
+				}
+				for ($i=1; $i<3; $i++)
+				{
+					if (isset($_POST["avail".$i])) {
+					$overall_query->addFilter("Availability",$_POST["avail".$i]);
+
+					} else {
+
+
+					}
+				}
+				
+				$temparray= $overall_query->getArrayTemp();
+				if (empty($overall_query))
+				{
+					echo "Empty! we got a problem";
+				}
+				else
+				{
+					echo "Not empty!";
+				}
+				
+				
+				$outputstring= $overall_query->buildQuery();
+				echo $outputstring;
+				$sql=$outputstring;
+	  				//-run  the query against the mysql query function1
+	 				$result=mysqli_query($con,$sql);	
+					//-create  while loop and loop through result set
+					while($total_divs!=-1)
+					{
+						$cake= "data_elems";
+						removeElem_PHP($cake);
+						$dom->removeChild(${$n});
+						if ($total_divs==0)
+						{
+							break;
+						}
+						$total_divs=$total_divs -1;
+						$n="div_{$total_divs}_name";
+					}
+					//echo $dom->saveHTML();
+					$total_divs=0;			
+					while($row=mysqli_fetch_array($result))
+					{
+						$Link          =$row['Website'];	
+						$Industry      =$row['Industry'];
+						$Availability  =$row['Location'];
+						$Location      =$row['Availability'];
+
+						$n="div_{$total_divs}_name";
+						$n_child="html_child_{$total_divs}";
+						$n_child_link="html_child_{$total_divs}_link";
+						$n_child_industry="html_child_{$total_divs}_industry";
+						$n_child_availability="html_child_{$total_divs}_availability";
+						$n_child_location="html_child_{$total_divs}_location";
+						$child_link= "html_".$Link;
+
+						${$n}= $dom->appendChild($dom->createElement('div'));
+						${$n_child}= ${$n}->appendChild($dom->createElement('div'));
+						${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
+						${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
+						${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
+						${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
+						${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
+						
+		
+		
+
+						$$n->setAttribute('id', $n);
+						$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
+						${$n_child}->setAttribute('class','box');
+						${$child_link}->setAttribute('href',$Link);
+						${$n_child_link}->setAttribute('class','title h4');
+						${$n_child_industry}->setAttribute('class','attributes');
+						${$n_child_availability}->setAttribute('class','attributes');
+						${$n_child_location}->setAttribute('class','attributes');
+		
+				}
+				$dom->formatOutput = true;
+				echo $dom->saveHTML();
+			}
 		?>
 		</div>
         <h2 class="sub-header">Section title</h2>
@@ -399,18 +514,12 @@ $modified=0;
 		<?php
 			if(isset($_POST['filter_go']))
 			{
-				for ($i=4; $i<5; $i++)
-				{
-					if (isset($_POST["industry".$i])) {
-					echo '<script type="text/javascript"> InputQueries(); </script>';
-
-					} else {
-
-
-					} 
-				}
+			$outputstring= $overall_query->returnQuery();
+				echo $outputstring;
 
 			}
+				
+			
 		?>
     </div>
   </div>
