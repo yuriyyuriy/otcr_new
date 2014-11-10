@@ -240,6 +240,8 @@ $modified=0;
 				document.getElementById("industry2").checked = false;
 				document.getElementById("industry3").checked = false;
 				document.getElementById("industry4").checked = false;
+				document.getElementById("avail1").checked = false;
+				document.getElementById("avail2").checked = false;
 				 var checkboxValues = {};
 		    $(":checkbox").each(function(){
 		      checkboxValues[this.id] = this.checked;
