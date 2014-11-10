@@ -155,7 +155,7 @@ $modified=0;
         <span class="icon-bar"></span> <span class="icon-bar"></span>
         <span class="icon-bar"></span></button> <a class="navbar-brand"
         href=
-        "./Dashboard%20Template%20for%20Bootstrap_files/Dashboard%20Template%20for%20Bootstrap.html">
+        "./index.php">
         Yash Technologies</a>
       </div>
 
@@ -164,7 +164,7 @@ $modified=0;
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href=
-            "./Dashboard%20Template%20for%20Bootstrap_files/Dashboard%20Template%20for%20Bootstrap.html">
+            "./add_data_source.php">
             Add new Source</a>
           </li>
         </ul>
