@@ -48,12 +48,7 @@ class queryString
 		return false;
 	}
 	public function addFilter($domain, $newFilter){
-		echo "In here222!";
 		$this->query_init[$domain][] = $newFilter;
-	}
-	public function removeFilter($domain, $oldFilter){
-		echo "Not in here222!";
-		array_diff( $query_init[$domain], $oldFilter);
 	}
 	public function getArrayTemp(){
 		return $this->query_init;
@@ -127,23 +122,20 @@ $modified=0;
 							//}
 						//}
     				}
-		function removeElement(childDiv){  
+		function removeElement(childDiv){ 
+			alert("About to remove elements!");
 			var myNode = document.getElementById(childDiv);
 			while (myNode.firstChild) {
     			myNode.removeChild(myNode.firstChild);
 			}
-		//	if (document.getElementById(childDiv)){
-		//		document.write("Removing div "+childDiv);   
-		//	  	var child = document.getElementById(childDiv);
-		//	  	child.parentNode.removeChild(child);
-			//	return true;
-		//	}
-		//	return false;
-		}
-		 submitForms = function(){
-   		 	document.getElementById("searchform").submit();
-    		document.getElementById("filterform").submit();
-		}
+
+		function form2form(aF1, aF2) { 
+			alert("Here we are yess copy");
+ 			var selection = "#" + aF1 + " .copy";
+ 			$(selection).each(function() {
+     		document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
+   		});           
+}
 		</script>
 </head>
 
@@ -181,8 +173,17 @@ $modified=0;
             <input class="form-control" placeholder=
             "Enter a search term" name="search_info" type="text">
           </div>
-          <button class ="btn btn-default" name="search_go" type= "submit" value="" onclick="submitForms()">Search</button>
+          <button class ="btn btn-default" name="search_go" type= "submit" value="">Search</button>
         </form>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script>
+			$( "#searchform" ).submit(function( event ) {
+			$.each ( $('#filterform input, #filterform name, #filterform value').serializeArray(), function ( i, obj ) {
+  			$('<input type="hidden">').prop( obj ).appendTo( $('#searchform') );
+			} );
+			});
+		</script>
           
 
       </div>
@@ -225,15 +226,46 @@ $modified=0;
 	      <label for="avail2"><span style="font-weight:normal;">Paid</span></label>
           <br>
           <br>
-          <button class="btn btn-default" name="filter_go" onclick="submitForms()" value="">Filter</button>
-					
+          <button class="btn btn-default" name="filter_go" onclick="submit" value="">Filter</button>
+		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>		
         </form>
-
+			
 
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script>
+			function clearalls() {
+				document.getElementById("industry1").checked = false;
+				document.getElementById("industry2").checked = false;
+				document.getElementById("industry3").checked = false;
+				document.getElementById("industry4").checked = false;
+				 var checkboxValues = {};
+		    $(":checkbox").each(function(){
+		      checkboxValues[this.id] = this.checked;
+		    });
+		    $.cookie('checkboxValues', checkboxValues, { expires: 7, path: '/' });
+				/*var checkboxValues = $.cookie('checkboxValues');
+		    	if(checkboxValues){
+		      	Object.keys(checkboxValues).forEach(function(element) {
+				alert(element);
+		        $("#" + element).prop('checked', false);
+		      });
+				
+		    }*/
+				document.getElementById("filterform").submit();
+			}
+
+
+			$( "#filterform" ).submit(function( event ) {
+				//var submittedBy = form.data('submittedBy');
+			//alert(submittedBy);
+			$.each ( $('#searchform input, #searchform name, #searchform value').serializeArray(), function ( i, obj ) {
+  			$('<input type="hidden">').prop( obj ).appendTo( $('#filterform') );
+			} );
+			});
+	
+
       		$(":checkbox").on("change", function(){
 		    var checkboxValues = {};
 		    $(":checkbox").each(function(){
@@ -247,6 +279,7 @@ $modified=0;
 		    var checkboxValues = $.cookie('checkboxValues');
 		    if(checkboxValues){
 		      Object.keys(checkboxValues).forEach(function(element) {
+				
 		        var checked = checkboxValues[element];
 		        $("#" + element).prop('checked', checked);
 		      });
@@ -267,240 +300,130 @@ $modified=0;
 
         <div class="row placeholders" id="data_elems">
 		<?php
-		$total_query="SELECT * FROM testtable";
-		$result = mysqli_query($con,$total_query);
-		$total_divs=0;
-		//echo "<p>".$div_0_name."</p>";
-		//$attr_array= array( 'class' => 'item', 'width' => '200px', 'height' => '200px');
-		//$stream=streamWrapper::__construct();
-		if (!$result)
+		
+
+		$FILTER_SET=0;
+		$SEARCH_SET=0;
+		$filter_add="";
+		$search_add="";
+		if((isset($_POST['filter_go']))||(isset($_POST['search_go'])))
 		{
-			echo "Whaaat";
-		}
-		while($row=mysqli_fetch_array($result))
-		{
-						$Link          =$row['Website'];	
-						$Industry      =$row['Industry'];
-						$Availability  =$row['Location'];
-						$Location      =$row['Availability'];
-
-						$n="div_{$total_divs}_name";
-						$n_child="html_child_{$total_divs}";
-						$n_child_link="html_child_{$total_divs}_link";
-						$n_child_industry="html_child_{$total_divs}_industry";
-						$n_child_availability="html_child_{$total_divs}_availability";
-						$n_child_location="html_child_{$total_divs}_location";
-						$child_link= "html_".$Link;
-
-						${$n}= $dom->appendChild($dom->createElement('div'));
-						${$n_child}= ${$n}->appendChild($dom->createElement('div'));
-						${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
-						${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
-						${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
-						${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
-						${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
-						
-		
-		
-
-						$$n->setAttribute('id', $n);
-						$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
-						${$n_child}->setAttribute('class','box');
-						${$child_link}->setAttribute('href',$Link);
-						${$n_child_link}->setAttribute('class','title h4');
-						${$n_child_industry}->setAttribute('class','attributes');
-						${$n_child_availability}->setAttribute('class','attributes');
-						${$n_child_location}->setAttribute('class','attributes');
-		
-		
-
-			$total_divs= $total_divs+1;
-	  	}
-		$dom->formatOutput = true;
-		echo $dom->saveHTML();
-		$total_divs= $total_divs -1;
-
-	  		//if(isset($_GET['filter_go']))
-			//{
-			//$cake= "data_elems";
-			//removeElem_PHP($cake);
-			//echo "<p> Yay! </p>";
-			
-	//	}
-	
-		if(isset($_POST['search_go']))
-		{
-	//  		if(isset($_GET['go']))
-		//	{
-	  			if(preg_match("/^[  a-zA-Z]+/", $_POST['search_info']))
-				{
-					echo $dom->saveHTML();
-	  				$name=$_POST['search_info'];
-	  				//connect  to the database
-	 				//$db=mysql_connect  ("servername", "username",  "password") or die ('I cannot connect to the database  because: ' . mysql_error());
-	  				//-select  the database to use
-	  				//$mydb=mysql_select_db("yourDatabase");
-	  				//-query  the database table
-					$sql= $overall_query->buildQuery();
-//." AND Website LIKE'%" . $name .  "%' OR Industry LIKE '%" . $name ."%' OR Availability LIKE '%" . $name ."%'OR Location LIKE '%" . $name ."%'";
-	  				//-run  the query against the mysql query function1
-	 				$result=mysqli_query($con,$sql);	
-					//-create  while loop and loop through result set
-					while($total_divs!=-1)
-					{
-						$cake= "data_elems";
-						removeElem_PHP($cake);
-						$dom->removeChild(${$n});
-						if ($total_divs==0)
-						{
-							break;
-						}
-						$total_divs=$total_divs -1;
-						$n="div_{$total_divs}_name";
-					}
-					//echo $dom->saveHTML();
-					$total_divs=0;			
-					while($row=mysqli_fetch_array($result))
-					{
-						$Link          =$row['Website'];	
-						$Industry      =$row['Industry'];
-						$Availability  =$row['Location'];
-						$Location      =$row['Availability'];
-
-						$n="div_{$total_divs}_name";
-						$n_child="html_child_{$total_divs}";
-						$n_child_link="html_child_{$total_divs}_link";
-						$n_child_industry="html_child_{$total_divs}_industry";
-						$n_child_availability="html_child_{$total_divs}_availability";
-						$n_child_location="html_child_{$total_divs}_location";
-						$child_link= "html_".$Link;
-
-						${$n}= $dom->appendChild($dom->createElement('div'));
-						${$n_child}= ${$n}->appendChild($dom->createElement('div'));
-						${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
-						${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
-						${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
-						${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
-						${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
-						
-		
-		
-
-						$$n->setAttribute('id', $n);
-						$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
-						${$n_child}->setAttribute('class','box');
-						${$child_link}->setAttribute('href',$Link);
-						${$n_child_link}->setAttribute('class','title h4');
-						${$n_child_industry}->setAttribute('class','attributes');
-						${$n_child_availability}->setAttribute('class','attributes');
-						${$n_child_location}->setAttribute('class','attributes');
-		
-
-			$total_divs= $total_divs+1;
-				  	}
-					if ($total_divs==0)
-					{
-						echo '<p id= "no_results"> No results were found for this search query </p>';
-						echo '<p>'.$sql.'</p>';
-					}
-					
-					echo $dom->saveHTML();
-				}
-			//}
-		}
-		if(isset($_POST['filter_go']))
+			/*while($total_divs!=-1)
 			{
-				echo "Cake1";
-				for ($i=1; $i<5; $i++)
+				echo "Removing Elements!";
+				$cake= "data_elems";
+				removeElem_PHP($cake);
+				$dom->removeChild(${$n});
+				if ($total_divs==0)
 				{
-					if (isset($_POST["industry".$i])) {
-					$overall_query->addFilter("Industry",$_POST["industry".$i]);
-
-					} else {
-
-
-					}
+					break;
 				}
-				for ($i=1; $i<3; $i++)
-				{
-					if (isset($_POST["avail".$i])) {
-					$overall_query->addFilter("Availability",$_POST["avail".$i]);
+				$total_divs=$total_divs -1;
+				$n="div_{$total_divs}_name";
+			}
+			$total_divs=0;*/
+			for ($i=1; $i<5; $i++)
+			{
+				if (isset($_POST["industry".$i])) {
+				$overall_query->addFilter("Industry",$_POST["industry".$i]);
+				$FILTER_SET=1;
+				} else {
 
-					} else {
 
-
-					}
 				}
-				
-				$temparray= $overall_query->getArrayTemp();
-				if (empty($overall_query))
+			}
+			for ($i=1; $i<3; $i++)
+			{
+				if (isset($_POST["avail".$i])) {
+				$overall_query->addFilter("Availability",$_POST["avail".$i]);
+				$FILTER_SET=1;
+				} else {
+
+
+				}
+			}
+			$filter_add= $overall_query->buildQuery();
+  			if(preg_match("/^[  a-zA-Z]+/", $_POST['search_info']))
+			{
+				//echo $dom->saveHTML();
+  				$name=$_POST['search_info'];
+  				//connect  to the database
+ 				//$db=mysql_connect  ("servername", "username",  "password") or die ('I cannot connect to the database  because: ' . mysql_error());
+  				//-select  the database to use
+  				//$mydb=mysql_select_db("yourDatabase");
+  				//-query  the database table
+				if (empty($_POST['search_info']))
 				{
-					echo "Empty! we got a problem";
+					$SEARCH_SET=0;
 				}
 				else
 				{
-					echo "Not empty!";
+					$search_add= "Website LIKE'%" . $name .  "%' OR Industry LIKE '%" . $name ."%' OR Availability LIKE '%" . $name ."%'OR Location LIKE '%" .$name ."%'";
+					$SEARCH_SET=1;
 				}
-				
-				
-				$outputstring= $overall_query->buildQuery();
-				echo $outputstring;
-				$sql=$outputstring;
-	  				//-run  the query against the mysql query function1
-	 				$result=mysqli_query($con,$sql);	
-					//-create  while loop and loop through result set
-					while($total_divs!=-1)
-					{
-						$cake= "data_elems";
-						removeElem_PHP($cake);
-						$dom->removeChild(${$n});
-						if ($total_divs==0)
-						{
-							break;
-						}
-						$total_divs=$total_divs -1;
-						$n="div_{$total_divs}_name";
-					}
-					//echo $dom->saveHTML();
-					$total_divs=0;			
-					while($row=mysqli_fetch_array($result))
-					{
-						$Link          =$row['Website'];	
-						$Industry      =$row['Industry'];
-						$Availability  =$row['Location'];
-						$Location      =$row['Availability'];
-
-						$n="div_{$total_divs}_name";
-						$n_child="html_child_{$total_divs}";
-						$n_child_link="html_child_{$total_divs}_link";
-						$n_child_industry="html_child_{$total_divs}_industry";
-						$n_child_availability="html_child_{$total_divs}_availability";
-						$n_child_location="html_child_{$total_divs}_location";
-						$child_link= "html_".$Link;
-
-						${$n}= $dom->appendChild($dom->createElement('div'));
-						${$n_child}= ${$n}->appendChild($dom->createElement('div'));
-						${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
-						${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
-						${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
-						${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
-						${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
-						
+			}
+		}
 		
-		
+		if ($FILTER_SET||$SEARCH_SET)
+		{
+			$sql="";
+			if (($FILTER_SET)&&($SEARCH_SET))
+			{
+				$sql= $filter_add." AND (".$search_add.")";
+			}
+			else if ($FILTER_SET)
+			{
+				$sql= $filter_add;
+			}
+			else
+			{
+				$sql= "SELECT * from testtable WHERE ".$search_add;
+			}
+		}	
+		else
+		{
+			$sql="SELECT * FROM testtable";
+		}
+		$result= mysqli_query($con, $sql);
+			$total_divs=0;
+			while($row=mysqli_fetch_array($result))
+			{
+					$Link          =$row['Website'];	
+					$Industry      =$row['Industry'];
+					$Availability  =$row['Location'];
+					$Location      =$row['Availability'];
 
-						$$n->setAttribute('id', $n);
-						$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
-						${$n_child}->setAttribute('class','box');
-						${$child_link}->setAttribute('href',$Link);
-						${$n_child_link}->setAttribute('class','title h4');
-						${$n_child_industry}->setAttribute('class','attributes');
-						${$n_child_availability}->setAttribute('class','attributes');
-						${$n_child_location}->setAttribute('class','attributes');
-		
-				}
-				$dom->formatOutput = true;
-				echo $dom->saveHTML();
+					$n="div_{$total_divs}_name";
+					$n_child="html_child_{$total_divs}";
+					$n_child_link="html_child_{$total_divs}_link";
+					$n_child_industry="html_child_{$total_divs}_industry";
+					$n_child_availability="html_child_{$total_divs}_availability";
+					$n_child_location="html_child_{$total_divs}_location";
+					$child_link= "html_".$Link;
+
+					${$n}= $dom->appendChild($dom->createElement('div'));
+					${$n_child}= ${$n}->appendChild($dom->createElement('div'));
+					${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
+					${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
+					${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
+					${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
+					${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
+
+					$$n->setAttribute('id', $n);
+					$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
+					${$n_child}->setAttribute('class','box');
+					${$child_link}->setAttribute('href',$Link);
+					${$n_child_link}->setAttribute('class','title h4');
+					${$n_child_industry}->setAttribute('class','attributes');
+					${$n_child_availability}->setAttribute('class','attributes');
+					${$n_child_location}->setAttribute('class','attributes');
+					$total_divs= $total_divs+1;
+	  		}
+			$dom->formatOutput = true;
+			echo $dom->saveHTML();
+			if ($total_divs==0)
+			{
+				echo '<p id= "no_results"> No results were found for your query </p>';
 			}
 		?>
 		</div>
@@ -512,10 +435,26 @@ $modified=0;
         </div>
       </div>
 		<?php
-			if(isset($_POST['filter_go']))
+		/*   if(isset($_POST['filter_go']))
 			{
-			$outputstring= $overall_query->returnQuery();
-				echo $outputstring;
+			echo "HELLLO WORLD";
+			foreach($_POST as $name => $value) {
+				echo $name;
+				
+				echo $value;
+				echo "<br>";
+			}
+
+			}*/
+			if(isset($_POST['search_go']))
+			{
+			echo "HELLLO WORLD";
+			foreach($_POST as $name => $value) {
+				echo $name;
+				
+				echo $value;
+				echo "<br>";
+			}
 
 			}
 				
