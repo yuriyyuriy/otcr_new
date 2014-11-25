@@ -155,7 +155,7 @@ $modified=0;
         <span class="icon-bar"></span> <span class="icon-bar"></span>
         <span class="icon-bar"></span></button> <a class="navbar-brand"
         href=
-        "./Dashboard%20Template%20for%20Bootstrap_files/Dashboard%20Template%20for%20Bootstrap.html">
+        "./index.php">
         Yash Technologies</a>
       </div>
 
@@ -164,7 +164,7 @@ $modified=0;
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href=
-            "./Dashboard%20Template%20for%20Bootstrap_files/Dashboard%20Template%20for%20Bootstrap.html">
+            "./add_data_source.php">
             Add new Source</a>
           </li>
         </ul>
@@ -197,6 +197,7 @@ $modified=0;
         <h2><b>Filter Sources</b></h2>
 
 		<form name="filter_go_test" action="index.php?filter_go_test" method="post" id="filterform" >
+		  <div>
 		  <br>
           <h4><b>Industry</b></h4>
 		  <input type="checkbox" value="healthcare" id="industry1" name="industry1">
@@ -213,7 +214,7 @@ $modified=0;
           <br>
 		  <input type="checkbox" value="agriculture" id="industry4" name="industry4">
 		  <label for="industry4"><span style="font-weight:normal;">Agriculture</span></label>
-          
+          </div>
           <br>
           <br>
 
@@ -392,8 +393,8 @@ $modified=0;
 			{
 					$Link          =$row['Website'];	
 					$Industry      =$row['Industry'];
-					$Availability  =$row['Location'];
-					$Location      =$row['Availability'];
+					$Availability  =$row['Availability'];
+					$Location      =$row['Location'];
 
 					$n="div_{$total_divs}_name";
 					$n_child="html_child_{$total_divs}";
