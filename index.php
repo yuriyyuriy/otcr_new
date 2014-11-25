@@ -16,7 +16,7 @@ class queryString
 		foreach ($this->query_init as $area=>$filter) {
 			if (!empty($filter))
 			{
-				
+
 				if ($multfilter){
 					$this->query_base=$this->query_base." AND";
 
@@ -54,7 +54,7 @@ class queryString
 		return $this->query_init;
 	}
 	public function returnQuery(){
-		return $this->query_base;	
+		return $this->query_base;
 	}
 }
 $overall_query= new queryString;
@@ -81,6 +81,8 @@ $modified=0;
   <title>Yash Technologies</title><!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
+<link href="css/bootstrap_edits.css" rel="stylesheet">
+<!-- Custom styles for this template -->
   <link href="css/dashboard.css" rel="stylesheet">
   <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -118,23 +120,23 @@ $modified=0;
 							//document.write("FUCK THE PLEDGES");
 							//}
 							//else{
-		
+
 							//}
 						//}
     				}
-		function removeElement(childDiv){ 
+		function removeElement(childDiv){
 			alert("About to remove elements!");
 			var myNode = document.getElementById(childDiv);
 			while (myNode.firstChild) {
     			myNode.removeChild(myNode.firstChild);
 			}
 
-		function form2form(aF1, aF2) { 
+		function form2form(aF1, aF2) {
 			alert("Here we are yess copy");
  			var selection = "#" + aF1 + " .copy";
  			$(selection).each(function() {
      		document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
-   		});           
+   		});
 }
 		</script>
 </head>
@@ -146,7 +148,7 @@ $modified=0;
 	$database="testdb2";
 	mysqli_select_db($con,$database);
 	?>
-  <div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <button class="navbar-toggle collapsed" data-target=
@@ -184,7 +186,7 @@ $modified=0;
 			} );
 			});
 		</script>
-          
+
 
       </div>
     </div>
@@ -206,11 +208,11 @@ $modified=0;
           <br>
 		  <input type="checkbox" value="Finance" id="industry2" name="industry2">
 		  <label for="industry2"><span style="font-weight:normal;">Finance</span></label>
-          
+
           <br>
 		  <input type="checkbox" value="Energy" id="industry3" name="industry3">
 		  <label for="industry3"><span style="font-weight:normal;">Energy</span></label>
-          
+
           <br>
 		  <input type="checkbox" value="agriculture" id="industry4" name="industry4">
 		  <label for="industry4"><span style="font-weight:normal;">Agriculture</span></label>
@@ -228,11 +230,11 @@ $modified=0;
           <br>
           <br>
           <button class="btn btn-default" name="filter_go" onclick="submit" value="">Filter</button>
-		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>		
+		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>
         </form>
-			
 
-		
+
+
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script>
@@ -254,7 +256,7 @@ $modified=0;
 				alert(element);
 		        $("#" + element).prop('checked', false);
 		      });
-				
+
 		    }*/
 				document.getElementById("filterform").submit();
 			}
@@ -267,7 +269,7 @@ $modified=0;
   			$('<input type="hidden">').prop( obj ).appendTo( $('#filterform') );
 			} );
 			});
-	
+
 
       		$(":checkbox").on("change", function(){
 		    var checkboxValues = {};
@@ -282,7 +284,7 @@ $modified=0;
 		    var checkboxValues = $.cookie('checkboxValues');
 		    if(checkboxValues){
 		      Object.keys(checkboxValues).forEach(function(element) {
-				
+
 		        var checked = checkboxValues[element];
 		        $("#" + element).prop('checked', checked);
 		      });
@@ -291,7 +293,7 @@ $modified=0;
 
 		  $.cookie.json = true;
 		  repopulateCheckboxes();
-    
+
 		</script>
       </div>
 
@@ -303,7 +305,7 @@ $modified=0;
 
         <div class="row placeholders" id="data_elems">
 		<?php
-		
+
 
 		$FILTER_SET=0;
 		$SEARCH_SET=0;
@@ -366,7 +368,7 @@ $modified=0;
 				}
 			}
 		}
-		
+
 		if ($FILTER_SET||$SEARCH_SET)
 		{
 			$sql="";
@@ -382,7 +384,7 @@ $modified=0;
 			{
 				$sql= "SELECT * from testtable WHERE ".$search_add;
 			}
-		}	
+		}
 		else
 		{
 			$sql="SELECT * FROM testtable";
@@ -391,7 +393,7 @@ $modified=0;
 			$total_divs=0;
 			while($row=mysqli_fetch_array($result))
 			{
-					$Link          =$row['Website'];	
+					$Link          =$row['Website'];
 					$Industry      =$row['Industry'];
 					$Availability  =$row['Availability'];
 					$Location      =$row['Location'];
@@ -443,7 +445,7 @@ $modified=0;
 			echo "HELLLO WORLD";
 			foreach($_POST as $name => $value) {
 				echo $name;
-				
+
 				echo $value;
 				echo "<br>";
 			}
@@ -454,18 +456,18 @@ $modified=0;
 			echo "HELLLO WORLD";
 			foreach($_POST as $name => $value) {
 				echo $name;
-				
+
 				echo $value;
 				echo "<br>";
 			}
 
 			}
-				
-			
+
+
 		?>
     </div>
   </div>
-	
+
   <!-- Bootstrap core JavaScript
   ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
