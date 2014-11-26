@@ -5,6 +5,7 @@ class queryString
 	private $query_init = array(
 		"Industry" => array(),
 		"Availability" => array(),
+		"Location" => array(),
 	);
 	public function buildQuery(){
 		if($this->allAvail())
@@ -41,7 +42,7 @@ class queryString
 		return $this->query_base;
 	}
 	public function allAvail(){
-		if((empty ($this->query_init["Industry"]))&&(empty ($this->query_init["Availability"]))){
+		if((empty ($this->query_init["Industry"]))&&(empty ($this->query_init["Availability"]))&&(empty ($this->query_init["Location"]))){
 			return true;
 		}
 		return false;
@@ -58,9 +59,6 @@ class queryString
 	}
 }
 $overall_query= new queryString;
-function removeElem_PHP($divname) {
-  echo '<script type="text/javascript"> removeElement("'.$divname.'");</script>';
-}
 $modified=0;
 ?>
 
@@ -98,42 +96,6 @@ $modified=0;
 
   <style id="holderjs-style" type="text/css">
 </style>
-<script type="text/javascript">
-	    function InputQueries(){
-						removeElement("data_elems");
-						var myNode = document.getElementById("IndustryDiv");
-						var childNodes= myNode.childNodes;
-						if (myNode)
-						{
-							for (i=0 ; i<childNodes.length ; i++)
-							{
-								if (childNodes[i].checked)
-								{
-									removeElement("data_elems");
-								}
-							}
-						}
-    				}
-		function removeElement(childDiv){
-			alert("About to remove elements!");
-			var myNode = document.getElementById(childDiv);
-			while (myNode.firstChild) {
-    			myNode.removeChild(myNode.firstChild);
-			}
-
-		function form2form(aF1, aF2) {
-			alert("Here we are yess copy");
- 			var selection = "#" + aF1 + " .copy";
- 			$(selection).each(function() {
-     		document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
-<<<<<<< HEAD
-   		});  
-		       
-=======
-   		});
->>>>>>> origin/master
-}
-		</script>
 </head>
 
 <body>
@@ -193,38 +155,148 @@ $modified=0;
         <h2><b>Filter Sources</b></h2>
 
 		<form name="filter_go_test" action="index.php?filter_go_test" method="post" id="filterform" >
-		  <div>
 		  <br>
+		  <?php
+		  		
+				
+				/*$avail_query= "SELECT DISTINCT Availability FROM testtable";
+				$avail_result= mysqli_query($con, $industry_query);
+				$total_filters=0;
+				while($row=mysqli_fetch_array($avail_result))
+				{
+					$avail_name= "Availability_$total_filter";
+					${$avail_name)      =$row['Availability'];
+				}
+				
+				$location_query= "SELECT DISTINCT Location FROM testtable";
+				$location_result= mysqli_query($con, $location_query);
+				$total_filters=0;
+				while($row=mysqli_fetch_array($location_result))
+				{
+					$location_name= "Location_$total_filter";
+					${$location_name)      =$row['Location'];
+				}*/
+		  ?>
           <h4><b>Industry</b></h4>
-		  <input type="checkbox" value="healthcare" id="industry1" name="industry1">
-		  <label for="industry1"><span style="font-weight:normal;">Healthcare</span></label>
+		  <?php
+			  $industry_dom = new DOMDocument('1.0', 'iso-8859-1');
+			  $industry_filter=0;
+			  $industry_query= "SELECT DISTINCT Industry FROM testtable";
+			  $industry_result= mysqli_query($con, $industry_query);
+			  $industry_filters=0;
+			  $industry_checkbox= "industry_checkbox_$industry_filters";
+			  $industry_label= "industry_checkbox_$industry_filters";
+			  $industry_span=  "industry_span_$industry_filters";
+			  $industry_br= "industry_br_$industry_filters";
+			  while($row=mysqli_fetch_array($industry_result))
+			  {
+			  	$in_name= "Industry_$industry_filters";
+			  	${$in_name}     =$row['Industry'];
 
-          <br>
-		  <input type="checkbox" value="Finance" id="industry2" name="industry2">
-		  <label for="industry2"><span style="font-weight:normal;">Finance</span></label>
+				${$industry_checkbox}=$industry_dom->appendChild($industry_dom->createElement('input'));
+				${$industry_checkbox}->setAttribute("type", "checkbox");
+				${$industry_checkbox}->setAttribute("value", ${$in_name});
+				${$industry_checkbox}->setAttribute("id"   , "industry".$industry_filters);
+				${$industry_checkbox}->setAttribute("name"   , "industry".$industry_filters);
 
-          <br>
-		  <input type="checkbox" value="Energy" id="industry3" name="industry3">
-		  <label for="industry3"><span style="font-weight:normal;">Energy</span></label>
+				${$industry_label}   =$industry_dom->appendChild($industry_dom->createElement('label'));
+				${$industry_label}->setAttribute("for", "industry".$industry_filters);
+				
+				${$industry_span}    =${$industry_label}->appendChild($industry_dom->createElement('span'));
+				${$industry_span}->setAttribute("style", "font-weight:normal;");
+				${$industry_span}->appendChild(new DOMText(${$in_name}));
+				
+				$industry_filters= $industry_filters+1;
 
-          <br>
-		  <input type="checkbox" value="agriculture" id="industry4" name="industry4">
-		  <label for="industry4"><span style="font-weight:normal;">Agriculture</span></label>
-          </div>
-          <br>
+				${$industry_br}      =$industry_dom->appendChild($industry_dom->createElement('br'));
+			  }
+			  
+			  echo $industry_dom->saveHTML();
+
+		  ?>
           <br>
 
 
-          <h4>Status</h4>
-		  <input type="checkbox" value="Free" id="avail1" name="avail1">
-		  <label for="avail1"><span style="font-weight:normal;">Free</span></label>
+          <h4><b>Availability</b></h4>
+		  <?php
+			  $availability_dom = new DOMDocument('1.0', 'iso-8859-1');
+			  $availability_query= "SELECT DISTINCT Availability FROM testtable";
+			  $availability_result= mysqli_query($con, $availability_query);
+			  $availability_filters=0;
+			  $availability_checkbox= "availability_checkbox_$availability_filters";
+			  $availability_label= "availability_checkbox_$availability_filters";
+			  $availability_span=  "availability_span_$availability_filters";
+			  $availability_br= "availability_br_$availability_filters";
+			  while($row=mysqli_fetch_array($availability_result))
+			  {
+			  	$availability_name= "availability_$availability_filters";
+			  	${$availability_name}     =$row['Availability'];
+
+				${$availability_checkbox}=$availability_dom->appendChild($availability_dom->createElement('input'));
+				${$availability_checkbox}->setAttribute("type", "checkbox");
+				${$availability_checkbox}->setAttribute("value", ${$availability_name});
+				${$availability_checkbox}->setAttribute("id"   , "availability".$availability_filters);
+				${$availability_checkbox}->setAttribute("name"   , "availability".$availability_filters);
+
+				${$availability_label}   =$availability_dom->appendChild($availability_dom->createElement('label'));
+				${$availability_label}->setAttribute("for", "availability".$availability_filters);
+				
+				${$availability_span}    =${$availability_label}->appendChild($availability_dom->createElement('span'));
+				${$availability_span}->setAttribute("style", "font-weight:normal;");
+				${$availability_span}->appendChild(new DOMText(${$availability_name}));
+				
+				$availability_filters= $availability_filters+1;
+
+				${$availability_br}      =$availability_dom->appendChild($availability_dom->createElement('br'));
+			  }
+			  echo $availability_dom->saveHTML();
+
+		  ?>
           <br>
-		  <input type="checkbox" value="Paid" id="avail2" name="avail2">
-	      <label for="avail2"><span style="font-weight:normal;">Paid</span></label>
-          <br>
-          <br>
+		  <h4><b>Location</b></h4>
+		  <?php
+			  $location_dom = new DOMDocument('1.0', 'iso-8859-1');
+			  $location_query= "SELECT DISTINCT Location FROM testtable";
+			  $location_result= mysqli_query($con, $location_query);
+			  $location_filters=0;
+			  $location_checkbox= "location_checkbox_$location_filters";
+			  $location_label= "location_checkbox_$location_filters";
+			  $location_span=  "location_span_$location_filters";
+			  $location_br= "location_br_$location_filters";
+			  while($row=mysqli_fetch_array($location_result))
+			  {
+			  	$location_name= "location_$location_filters";
+			  	${$location_name}     =$row['Location'];
+
+				${$location_checkbox}=$location_dom->appendChild($location_dom->createElement('input'));
+				${$location_checkbox}->setAttribute("type", "checkbox");
+				${$location_checkbox}->setAttribute("value", ${$location_name});
+				${$location_checkbox}->setAttribute("id"   , "location".$location_filters);
+				${$location_checkbox}->setAttribute("name"   , "location".$location_filters);
+
+				${$location_label}   =$location_dom->appendChild($location_dom->createElement('label'));
+				${$location_label}->setAttribute("for", "location".$location_filters);
+				
+				${$location_span}    =${$location_label}->appendChild($location_dom->createElement('span'));
+				${$location_span}->setAttribute("style", "font-weight:normal;");
+				${$location_span}->appendChild(new DOMText(${$location_name}));
+				
+				$location_filters= $location_filters+1;
+
+				${$location_br}      =$location_dom->appendChild($location_dom->createElement('br'));
+			  }
+			  echo $location_dom->saveHTML();
+
+		  ?>
+		  <br>
           <button class="btn btn-default" name="filter_go" onclick="submit" value="">Filter</button>
-		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>
+		  <button class="btn btn-default" name="clearall" type="button" onclick="
+<?php    
+
+echo "clearalls(".$industry_filters.",".$availability_filters.",".$location_filters.");";
+
+?>
+">Clear All</button>
         </form>
 
 
@@ -232,13 +304,22 @@ $modified=0;
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script>
-			function clearalls() {
-				document.getElementById("industry1").checked = false;
+			function clearalls(industrycount, availcount, locationcount) {
+				for (i = 0 ; i < industrycount; i++) { 
+    				document.getElementById("industry"+i).checked=false;
+				}
+				for (i = 0 ; i < availcount; i++) { 
+    				document.getElementById("availability"+i).checked=false;
+				}
+				for (i = 0 ; i < locationcount; i++) { 
+    				document.getElementById("location"+i).checked=false;
+				}
+			/*	document.getElementById("industry1").checked = false;
 				document.getElementById("industry2").checked = false;
 				document.getElementById("industry3").checked = false;
 				document.getElementById("industry4").checked = false;
 				document.getElementById("avail1").checked = false;
-				document.getElementById("avail2").checked = false;
+				document.getElementById("avail2").checked = false;*/
 				 var checkboxValues = {};
 		    $(":checkbox").each(function(){
 		      checkboxValues[this.id] = this.checked;
@@ -308,24 +389,25 @@ $modified=0;
 		if((isset($_POST['filter_go']))||(isset($_POST['search_go'])))
 		{
 		
-			for ($i=1; $i<5; $i++)
+			for ($i=0; $i<$industry_filters; $i++)
 			{
 				if (isset($_POST["industry".$i])) {
 				$overall_query->addFilter("Industry",$_POST["industry".$i]);
 				$FILTER_SET=1;
-				} else {
-
-
 				}
 			}
-			for ($i=1; $i<3; $i++)
+			for ($i=0; $i<$availability_filters; $i++)
 			{
-				if (isset($_POST["avail".$i])) {
-				$overall_query->addFilter("Availability",$_POST["avail".$i]);
+				if (isset($_POST["availability".$i])) {
+				$overall_query->addFilter("Availability",$_POST["availability".$i]);
 				$FILTER_SET=1;
-				} else {
-
-
+				}
+			}
+			for ($i=0; $i<$location_filters; $i++)
+			{
+				if (isset($_POST["location".$i])) {
+				$overall_query->addFilter("Location",$_POST["location".$i]);
+				$FILTER_SET=1;
 				}
 			}
 			$filter_add= $overall_query->buildQuery();
