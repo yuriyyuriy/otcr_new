@@ -134,7 +134,8 @@ $modified=0;
  			var selection = "#" + aF1 + " .copy";
  			$(selection).each(function() {
      		document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
-   		});           
+   		});  
+		       
 }
 		</script>
 </head>
@@ -170,8 +171,7 @@ $modified=0;
         </ul>
 			<form class="navbar-form navbar-right" method="post" action="index.php?go" id="searchform">
           <div class="form-group">
-            <input class="form-control" placeholder=
-            "Enter a search term" name="search_info" type="text">
+            <input class="form-control" placeholder="Enter a search term" name="search_info" type="text">
           </div>
           <button class ="btn btn-default" name="search_go" type= "submit" value="">Search</button>
         </form>
@@ -311,20 +311,7 @@ $modified=0;
 		$search_add="";
 		if((isset($_POST['filter_go']))||(isset($_POST['search_go'])))
 		{
-			/*while($total_divs!=-1)
-			{
-				echo "Removing Elements!";
-				$cake= "data_elems";
-				removeElem_PHP($cake);
-				$dom->removeChild(${$n});
-				if ($total_divs==0)
-				{
-					break;
-				}
-				$total_divs=$total_divs -1;
-				$n="div_{$total_divs}_name";
-			}
-			$total_divs=0;*/
+		
 			for ($i=1; $i<5; $i++)
 			{
 				if (isset($_POST["industry".$i])) {
@@ -391,32 +378,43 @@ $modified=0;
 			$total_divs=0;
 			while($row=mysqli_fetch_array($result))
 			{
+					$Name          =$row['Name'];
 					$Link          =$row['Website'];	
 					$Industry      =$row['Industry'];
 					$Availability  =$row['Availability'];
 					$Location      =$row['Location'];
 
+					$wrap= "div_{$total_divs}_wrapper";
 					$n="div_{$total_divs}_name";
 					$n_child="html_child_{$total_divs}";
 					$n_child_link="html_child_{$total_divs}_link";
 					$n_child_industry="html_child_{$total_divs}_industry";
 					$n_child_availability="html_child_{$total_divs}_availability";
 					$n_child_location="html_child_{$total_divs}_location";
+					$n_child_name= "html_child_{$total_divs}_name";
 					$child_link= "html_".$Link;
-
+					$my_br      = "br_{$total_divs}";
+					
 					${$n}= $dom->appendChild($dom->createElement('div'));
+					//${$wrap}= ${$n}->appendChild($dom->createElement('a'));
 					${$n_child}= ${$n}->appendChild($dom->createElement('div'));
+					${$n_child_name}= ${$n_child}->appendChild($dom->createElement('div', $Name));
 					${$child_link}= ${$n_child}->appendChild($dom->createElement('a'));
 					${$n_child_link}= ${$child_link}->appendChild($dom->createElement('div',$Link)); /// wut
+					${$my_br}       = ${$n_child}->appendChild($dom->createElement('br'));
 					${$n_child_industry}= ${$n_child}->appendChild($dom->createElement('div', "Industry : ".$Industry));
 					${$n_child_availability}= ${$n_child}->appendChild($dom->createElement('div',"Availability : ".$Availability));
 					${$n_child_location}= ${$n_child}->appendChild($dom->createElement('div', "Location : ".$Location));
 
 					$$n->setAttribute('id', $n);
 					$$n->setAttribute('class','col-xs-6 col-sm-4 col-md-3 column');
+					$$n->setAttribute('onClick', "changePage('link=".$Link."');");
+					$$n->setAttribute('style',"cursor: pointer");
+					//$$wrap->setAttribute('href', "./description.php");
+					//$$wrap->setAttribute('id', $wrap);
 					${$n_child}->setAttribute('class','box');
 					${$child_link}->setAttribute('href',$Link);
-					${$n_child_link}->setAttribute('class','title h4');
+					${$n_child_name}->setAttribute('class','title h4');
 					${$n_child_industry}->setAttribute('class','attributes');
 					${$n_child_availability}->setAttribute('class','attributes');
 					${$n_child_location}->setAttribute('class','attributes');
@@ -430,6 +428,16 @@ $modified=0;
 			}
 		?>
 		</div>
+		<script>
+		function changePage(sourceElem) {
+		//alert("notified");
+			document.location.href = "./description.php?"+sourceElem;
+		}  
+	//	function ChangePage(sourceElem){
+
+  		//	$.post("description.php", { name: "Link", value: sourceElem }).done(function(res)   {window.location="description.php"});
+		//}
+		</script>
         <h2 class="sub-header">Section title</h2>
 
 

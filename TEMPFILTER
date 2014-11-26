@@ -1,0 +1,17 @@
+<?php
+$checked="";
+$a = array();
+if(isset($_POST["check_list"])) {
+	foreach($_POST["check_list"] as $j=>$i) {
+		$checked .= ($checked==""?"":",") . "checkbox" . $i;
+		array_push($a, $i);
+	}
+}
+
+function was_checked($i,$a) {
+if(in_array($i, $a)===true) {
+return "checked='checked'";
+return "";
+}
+}
+?>
