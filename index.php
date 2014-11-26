@@ -16,7 +16,6 @@ class queryString
 		foreach ($this->query_init as $area=>$filter) {
 			if (!empty($filter))
 			{
-				
 				if ($multfilter){
 					$this->query_base=$this->query_base." AND";
 
@@ -54,7 +53,8 @@ class queryString
 		return $this->query_init;
 	}
 	public function returnQuery(){
-		return $this->query_base;	
+
+		return $this->query_base;
 	}
 }
 $overall_query= new queryString;
@@ -81,6 +81,8 @@ $modified=0;
   <title>Yash Technologies</title><!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
+<link href="css/bootstrap_edits.css" rel="stylesheet">
+<!-- Custom styles for this template -->
   <link href="css/dashboard.css" rel="stylesheet">
   <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -107,35 +109,29 @@ $modified=0;
 							{
 								if (childNodes[i].checked)
 								{
-									//document.write(childNodes[i].name);
 									removeElement("data_elems");
 								}
-											//
 							}
 						}
-						//while (myNode.firstChild) {
-							//if (myNode.firstChild.checked) {
-							//document.write("FUCK THE PLEDGES");
-							//}
-							//else{
-		
-							//}
-						//}
     				}
-		function removeElement(childDiv){ 
+		function removeElement(childDiv){
 			alert("About to remove elements!");
 			var myNode = document.getElementById(childDiv);
 			while (myNode.firstChild) {
     			myNode.removeChild(myNode.firstChild);
 			}
 
-		function form2form(aF1, aF2) { 
+		function form2form(aF1, aF2) {
 			alert("Here we are yess copy");
  			var selection = "#" + aF1 + " .copy";
  			$(selection).each(function() {
      		document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
+<<<<<<< HEAD
    		});  
 		       
+=======
+   		});
+>>>>>>> origin/master
 }
 		</script>
 </head>
@@ -147,7 +143,7 @@ $modified=0;
 	$database="testdb2";
 	mysqli_select_db($con,$database);
 	?>
-  <div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <button class="navbar-toggle collapsed" data-target=
@@ -184,7 +180,7 @@ $modified=0;
 			} );
 			});
 		</script>
-          
+
 
       </div>
     </div>
@@ -206,11 +202,11 @@ $modified=0;
           <br>
 		  <input type="checkbox" value="Finance" id="industry2" name="industry2">
 		  <label for="industry2"><span style="font-weight:normal;">Finance</span></label>
-          
+
           <br>
 		  <input type="checkbox" value="Energy" id="industry3" name="industry3">
 		  <label for="industry3"><span style="font-weight:normal;">Energy</span></label>
-          
+
           <br>
 		  <input type="checkbox" value="agriculture" id="industry4" name="industry4">
 		  <label for="industry4"><span style="font-weight:normal;">Agriculture</span></label>
@@ -228,11 +224,11 @@ $modified=0;
           <br>
           <br>
           <button class="btn btn-default" name="filter_go" onclick="submit" value="">Filter</button>
-		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>		
+		  <button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>
         </form>
-			
 
-		
+
+
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script>
@@ -254,7 +250,7 @@ $modified=0;
 				alert(element);
 		        $("#" + element).prop('checked', false);
 		      });
-				
+
 		    }*/
 				document.getElementById("filterform").submit();
 			}
@@ -267,7 +263,7 @@ $modified=0;
   			$('<input type="hidden">').prop( obj ).appendTo( $('#filterform') );
 			} );
 			});
-	
+
 
       		$(":checkbox").on("change", function(){
 		    var checkboxValues = {};
@@ -282,7 +278,7 @@ $modified=0;
 		    var checkboxValues = $.cookie('checkboxValues');
 		    if(checkboxValues){
 		      Object.keys(checkboxValues).forEach(function(element) {
-				
+
 		        var checked = checkboxValues[element];
 		        $("#" + element).prop('checked', checked);
 		      });
@@ -291,7 +287,7 @@ $modified=0;
 
 		  $.cookie.json = true;
 		  repopulateCheckboxes();
-    
+
 		</script>
       </div>
 
@@ -303,7 +299,7 @@ $modified=0;
 
         <div class="row placeholders" id="data_elems">
 		<?php
-		
+
 
 		$FILTER_SET=0;
 		$SEARCH_SET=0;
@@ -353,7 +349,7 @@ $modified=0;
 				}
 			}
 		}
-		
+
 		if ($FILTER_SET||$SEARCH_SET)
 		{
 			$sql="";
@@ -369,7 +365,7 @@ $modified=0;
 			{
 				$sql= "SELECT * from testtable WHERE ".$search_add;
 			}
-		}	
+		}
 		else
 		{
 			$sql="SELECT * FROM testtable";
@@ -378,6 +374,7 @@ $modified=0;
 			$total_divs=0;
 			while($row=mysqli_fetch_array($result))
 			{
+
 					$Name          =$row['Name'];
 					$Link          =$row['Website'];	
 					$Industry      =$row['Industry'];
@@ -451,7 +448,7 @@ $modified=0;
 			echo "HELLLO WORLD";
 			foreach($_POST as $name => $value) {
 				echo $name;
-				
+
 				echo $value;
 				echo "<br>";
 			}
@@ -462,21 +459,49 @@ $modified=0;
 			echo "HELLLO WORLD";
 			foreach($_POST as $name => $value) {
 				echo $name;
-				
+
 				echo $value;
 				echo "<br>";
 			}
 
 			}
-				
-			
+
+
 		?>
     </div>
   </div>
-	
+
   <!-- Bootstrap core JavaScript
   ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
+ <!-- Placed at the end of the document so the pages load faster -->
+   </script> <script src="js/bootstrap.min.js"></script> <script src="js/docs.min.js"></script> <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+   <script src="js/ie10-viewport-bug-workaround.js"></script>
+
+
+  <div class="global-zeroclipboard-container" data-original-title=
+  "Copy to clipboard" id="global-zeroclipboard-html-bridge" style=
+  "position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;"
+  title="">
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" height=
+    "100%" id="global-zeroclipboard-flash-bridge" width="100%">
+      <param name="movie" value=
+      "/assets/flash/ZeroClipboard.swf?noCache=1414347817655">
+      <param name="allowScriptAccess" value="sameDomain">
+      <param name="scale" value="exactfit">
+      <param name="loop" value="false">
+      <param name="menu" value="false">
+      <param name="quality" value="best">
+      <param name="bgcolor" value="#ffffff">
+      <param name="wmode" value="transparent">
+      <param name="flashvars" value=
+      "trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com">
+      <embed height="100%" src=
+      "/assets/flash/ZeroClipboard.swf?noCache=1414347817655" type=
+      "application/x-shockwave-flash" width="100%">
+    </object>
+  </div>
+</body>
+</html>
    </script> <script src="js/bootstrap.min.js"></script> <script src="js/docs.min.js"></script> <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
    <script src="js/ie10-viewport-bug-workaround.js"></script>
 

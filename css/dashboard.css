@@ -101,25 +101,28 @@ body {
 }
 
 .box {
-  background-color:#a9a9a9;
+  /*background-color:#a9a9a9;*/
   min-height:200px;
   padding:5px;
-  border-radius: 5px 5px 5px 5px;
+  /*border-radius: 5px 5px 5px 5px;
   -moz-border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px;
-  border: 0px solid #000000;
-  background: rgba(171,171,171,1);
+  border: 0px solid #000000;*/
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /*background: rgba(171,171,171,1);
   background: -moz-linear-gradient(top, rgba(171,171,171,1) 0%, rgba(204,204,204,1) 100%);
   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(171,171,171,1)), color-stop(100%, rgba(204,204,204,1)));
   background: -webkit-linear-gradient(top, rgba(171,171,171,1) 0%, rgba(204,204,204,1) 100%);
   background: -o-linear-gradient(top, rgba(171,171,171,1) 0%, rgba(204,204,204,1) 100%);
   background: -ms-linear-gradient(top, rgba(171,171,171,1) 0%, rgba(204,204,204,1) 100%);
   background: linear-gradient(to bottom, rgba(171,171,171,1) 0%, rgba(204,204,204,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ababab', endColorstr='#cccccc', GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ababab', endColorstr='#cccccc', GradientType=0 );*/
 }
 
 .box:hover{
-  background-color: #dfdfdf;
+  background-color: #ddd;
   -webkit-box-shadow: 5px 5px 33px -3px rgba(54,54,54,1);
   -moz-box-shadow: 5px 5px 33px -3px rgba(54,54,54,1);
   box-shadow: 5px 5px 33px -3px rgba(54,54,54,1);
