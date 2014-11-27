@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<!-- saved from url=(0044)http://getbootstrap.com/examples/dashboard/# -->
+
+<html lang="en">
+<head>
+	<script src="js/jquery.cookie.js"></script>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta charset="utf-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="" name="description">
+	<meta content="" name="author">
+	<link href="http://getbootstrap.com/favicon.ico" rel="icon">
+
+	<title>Yash Technologies</title><!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="css/bootstrap_edits.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="css/dashboard.css" rel="stylesheet">
+	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<script src="js/ie-emulation-modes-warning.js"></script>
+	<style type="text/css">
+	</style>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<style id="holderjs-style" type="text/css">
+	</style>
+	<script type="text/javascript">
+		function InputQueries(){
+			removeElement("data_elems");
+			var myNode = document.getElementById("IndustryDiv");
+			var childNodes= myNode.childNodes;
+			if (myNode)
+			{
+				for (i=0 ; i<childNodes.length ; i++)
+				{
+					if (childNodes[i].checked)
+					{
+						//document.write(childNodes[i].name);
+						removeElement("data_elems");
+					}
+					//
+				}
+			}
+			//while (myNode.firstChild) {
+			//if (myNode.firstChild.checked) {
+			//document.write("FUCK THE PLEDGES");
+			//}
+			//else{
+
+			//}
+			//}
+		}
+		function removeElement(childDiv){
+			alert("About to remove elements!");
+			var myNode = document.getElementById(childDiv);
+			while (myNode.firstChild) {
+				myNode.removeChild(myNode.firstChild);
+			}
+
+			function form2form(aF1, aF2) {
+				alert("Here we are yess copy");
+				var selection = "#" + aF1 + " .copy";
+				$(selection).each(function() {
+					document.forms[aF2].elements[$(this).attr('name')].value = $(this).val();
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button class="navbar-toggle collapsed" data-target=
+					".navbar-collapse" data-toggle="collapse" type=
+					"button"><span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span> <span class="icon-bar"></span>
+					<span class="icon-bar"></span></button> <a class="navbar-brand"
+					href=
+					"./index.php">
+					Yash Technologies</a>
+				</div>
+
+
+				<div class="navbar-collapse collapse">
+
+
+					<form class="navbar-form navbar-right" method="post" action="index.php?go" id="searchform">
+						<div class="form-group">
+							<input class="form-control" placeholder=
+							"Enter a search term" name="search_info" type="text">
+						</div>
+						<button class ="btn btn-default" name="search_go" type= "submit" value="">Search</button>
+					</form>
+					<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+					<script>
+						$( "#searchform" ).submit(function( event ) {
+							$.each ( $('#filterform input, #filterform name, #filterform value').serializeArray(), function ( i, obj ) {
+								$('<input type="hidden">').prop( obj ).appendTo( $('#searchform') );
+							} );
+						});
+					</script>
+
+
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3 col-md-2 sidebar">
+					<h2><b>Filter Sources</b></h2>
+
+					<form name="filter_go_test" action="index.php?filter_go_test" method="post" id="filterform" >
+						<div>
+							<br>
+							<h4><b>Industry</b></h4>
+							<input type="checkbox" value="healthcare" id="industry1" name="industry1">
+							<label for="industry1"><span style="font-weight:normal;">Healthcare</span></label>
+
+							<br>
+							<input type="checkbox" value="Finance" id="industry2" name="industry2">
+							<label for="industry2"><span style="font-weight:normal;">Finance</span></label>
+
+							<br>
+							<input type="checkbox" value="Energy" id="industry3" name="industry3">
+							<label for="industry3"><span style="font-weight:normal;">Energy</span></label>
+
+							<br>
+							<input type="checkbox" value="agriculture" id="industry4" name="industry4">
+							<label for="industry4"><span style="font-weight:normal;">Agriculture</span></label>
+						</div>
+						<br>
+						<br>
+
+
+						<h4>Status</h4>
+						<input type="checkbox" value="Free" id="avail1" name="avail1">
+						<label for="avail1"><span style="font-weight:normal;">Free</span></label>
+						<br>
+						<input type="checkbox" value="Paid" id="avail2" name="avail2">
+						<label for="avail2"><span style="font-weight:normal;">Paid</span></label>
+						<br>
+						<br>
+						<button class="btn btn-default" name="filter_go" onclick="submit" value="">Filter</button>
+						<button class="btn btn-default" name="clearall" type="button" onclick="clearalls();">Clear All</button>
+					</form>
+		</div>
+
+
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 no-padding-col">
+
+
+		<div class="options" style="background-color:red;">
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href="./add_data_source.php">Add new Source</a>
+					</li>
+				</ul>
+		</div>
+		<div class="main">
+			<h1 class="page-header">Open Data Sources</h1>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</script> <script src="js/bootstrap.min.js"></script> <script src="js/docs.min.js"></script> <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+
+
+<div class="global-zeroclipboard-container" data-original-title=
+"Copy to clipboard" id="global-zeroclipboard-html-bridge" style=
+"position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;"
+title="">
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" height=
+"100%" id="global-zeroclipboard-flash-bridge" width="100%">
+<param name="movie" value=
+"/assets/flash/ZeroClipboard.swf?noCache=1414347817655">
+<param name="allowScriptAccess" value="sameDomain">
+<param name="scale" value="exactfit">
+<param name="loop" value="false">
+<param name="menu" value="false">
+<param name="quality" value="best">
+<param name="bgcolor" value="#ffffff">
+<param name="wmode" value="transparent">
+<param name="flashvars" value=
+"trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com">
+<embed height="100%" src=
+"/assets/flash/ZeroClipboard.swf?noCache=1414347817655" type=
+"application/x-shockwave-flash" width="100%">
+</object>
+</div>
+</body>
+</html>

@@ -335,7 +335,9 @@ $modified=0;
 		<div id="menu_options">
 			<ul class="nav">
 				<li class="float">
-					<a href="./add_data_source.php">Case Studies</a>
+					<a href="./add_data_source.php">
+						<img height="13px" src="css/drawer.svg" width="13px">
+						Open Data Case Studies</a>
 				</li>
 				<li class="float add">
 					<a href="./add_data_source.php">
