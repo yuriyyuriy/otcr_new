@@ -38,12 +38,6 @@
         </div>
 
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="./Dashboard%20Template%20for%20Bootstrap_files/Dashboard%20Template%20for%20Bootstrap.html">Add new Source</a>
-            </li>
-          </ul>
-
           <form class="navbar-form navbar-right">
             <div class="form-group">
               <input class="form-control" placeholder="Write a name or month" type="text">
@@ -57,28 +51,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <h2>
-            Filter Sources
-          </h2>
 
-          <form>
-            <h5>
-              Industry
-            </h5>
-            <input name="industry" type="checkbox" value="healthcare"> Healthcare<br>
-            <input name="industry" type="checkbox" value="finance"> Finance<br>
-            <input name="industry" type="checkbox" value="retail"> Retail<br>
-            <input name="industry" type="checkbox" value="agriculture"> Agriculture<br>
-            <br>
-
-            <h5>
-              Status
-            </h5>
-            <input name="status" type="checkbox" value="free"> Free<br>
-            <input name="status" type="checkbox" value="paid"> Paid<br>
-            <br>
-            <button class="btn btn-default" type="submit">Filter</button>
-          </form>
         </div>
         <form class="form-group">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
